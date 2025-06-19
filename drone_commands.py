@@ -16,6 +16,36 @@ import keyboard
 Before running, open AirSim binary or unreal engine project and press play (have simulator running)
 '''
 
+
+
+'''
+
+class Drone(): initalizes an Airsim drone and enables API control
+
+Contains the following functions:
+    getDroneState(): prints state of drone
+    getImuData(): prints IMU data
+    getBarometerData(): prints barometer data
+    getMagnetometerData(): prints magnetometer data
+    getGpsData(): prints GPS data
+
+    getCoordinates(): returns a tuple of the drone's NED coordinates as (x, y, z)
+
+    takeoff(): arms drone and runs takeoff sequence
+    land(): lands drone, disarms drone, and disables API control
+    reset(): resets drone to original starting position, disarms drone, and disables API control
+
+    moveTo(x, y, z, s): moves drone to (x, y, z) coordinates at s meters/second
+    moveForward(): moves drone forward 5 meters at 5 meters/second
+    moveBackward(): moves drone backward 5 meters at 5 meters/second
+    moveLeft(): moves drone left 5 meters at 5 meters/second
+    moveRight(): moves drone right 5 meters at 5 meters/second
+
+    captureImage(): captures a single image from drone and saves to a given directory
+    startRecording(): begins built-in recording API
+    stopRecording(): stops recording; saves to /airsim/TIMESTAMP
+
+'''
 class Drone():
 
     #Setup Airsim client 
@@ -172,9 +202,3 @@ class Drone():
         self.client.stopRecording()
         
 
-
-
-drone = Drone()
-
-drone.takeoff()
-drone.getDroneState()
