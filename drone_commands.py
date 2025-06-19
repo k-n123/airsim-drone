@@ -45,6 +45,8 @@ Contains the following functions:
     startRecording(): begins built-in recording API
     stopRecording(): stops recording; saves to /airsim/TIMESTAMP
 
+    setFog(p): sets fog to p percent
+
 '''
 class Drone():
 
@@ -200,5 +202,13 @@ class Drone():
 
     def stopRecording(self):
         self.client.stopRecording()
+
+    # Weather functions
+
+    def setFog(self, p):
+        self.client.simEnableWeather(True)
+        self.client.simSetWeatherParameter(airsim.WeatherParameter.Fog, p)
+
         
+    
 

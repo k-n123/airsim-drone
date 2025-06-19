@@ -6,4 +6,6 @@ drone.takeoff()
 
 # Further actions here
 
+
+
 drone.reset()
