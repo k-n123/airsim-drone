@@ -163,6 +163,15 @@ class Drone():
         x, y, z = self.getCoordinates()
         self.client.moveToPositionAsync(x, y - 5, z, 5).join()
 
+    # Recording functions
+
+    def startRecording(self):
+        self.client.startRecording()
+
+    def stopRecording(self):
+        self.client.stopRecording()
+        
+
 
 
 drone = Drone()
