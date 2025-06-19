@@ -145,6 +145,24 @@ class Drone():
 
         return save_path
 
+    # WASD Directional Controls - Moves drone in the 2D directional plane at 5 meters/second
+
+    def moveForward(self):
+        x, y, z = self.getCoordinates()
+        self.client.moveToPositionAsync(x + 5, y, z, 5).join()
+
+    def moveBackward(self):
+        x, y, z = self.getCoordinates()
+        self.client.moveToPositionAsync(x - 5, y, z, 5).join()
+
+    def moveRight(self):
+        x, y, z = self.getCoordinates()
+        self.client.moveToPositionAsync(x, y + 5, z, 5).join()
+
+    def moveLeft(self):
+        x, y, z = self.getCoordinates()
+        self.client.moveToPositionAsync(x, y - 5, z, 5).join()
+
 
 
 drone = Drone()
