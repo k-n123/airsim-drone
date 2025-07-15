@@ -16,8 +16,6 @@ import keyboard
 Before running, open AirSim binary or unreal engine project and press play (have simulator running)
 '''
 
-
-
 '''
 
 class Drone(): initalizes an Airsim drone and enables API control
