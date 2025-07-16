@@ -6,6 +6,9 @@ drone.takeoff()
 
 # Further actions here
 
-
+drone.moveForward()
+drone.moveRight()
+drone.moveBackward()
+drone.moveLeft()
 
 drone.reset()
