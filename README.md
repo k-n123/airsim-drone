@@ -14,5 +14,5 @@ Installing software:
 
 Running the simulation:
 - Open an airsim binary (AirsimNH recommended) or an unreal engine project updated with the AirSim plugin
-- ** from drone_commands import drone ** add to control file
-- use functions from ** drone ** class to control drone
+- **from drone_commands import drone** add to control file
+- use functions from **drone** class to control drone
