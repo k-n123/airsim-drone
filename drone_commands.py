@@ -103,8 +103,10 @@ class Drone():
     # moveTo() will move the drone to the given x, y, z coordinate at given speed (s) meters/second
 
     def moveTo(self, x, y, z, s):
-        airsim.wait_key(f"Press any key to move vehicle to ({x}, {y}, {z}) at {s} m/s")
+        print(f"Moving vehicle to ({x}, {y}, {z}) at {s} m/s")
         self.client.moveToPositionAsync(x, y, z, s).join()
+        self.client.hoverAsync().join()
+        time.sleep(2)
 
     # land() will land the drone, disarm it, and disable api control
 
@@ -112,6 +114,7 @@ class Drone():
         airsim.wait_key("Press any key to land vehicle")
         self.client.landAsync().join()
         self.client.armDisarm(False)
+        
         self.client.enableApiControl(False)
 
 
