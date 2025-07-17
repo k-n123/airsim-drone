@@ -18,10 +18,6 @@ Running the simulation:
 - use functions from **drone** class to control drone
 
 ROS:
-- *wsl --install* on windows computer
-- Open Ubuntu
-- sudo apt update
-- sudo apt install curl gnupg lsb-release
-- sudo add ros repsoitory from packages.ros.org
-- Add the ROS key
-- Install ROS Noetic Desktop
+- install Ubuntu 20.04 (this is the only version that will work with ROS)
+- refer to *ros_setup.md*
+
