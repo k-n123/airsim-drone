@@ -16,3 +16,12 @@ Running the simulation:
 - Open an airsim binary (AirsimNH recommended) or an unreal engine project updated with the AirSim plugin
 - **from drone_commands import drone** add to control file
 - use functions from **drone** class to control drone
+
+ROS:
+- *wsl --install* on windows computer
+- Open Ubuntu
+- sudo apt update
+- sudo apt install curl gnupg lsb-release
+- sudo add ros repsoitory from packages.ros.org
+- Add the ROS key
+- Install ROS Noetic Desktop
