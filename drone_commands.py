@@ -50,6 +50,11 @@ class Drone():
 
     #Setup Airsim client 
 
+    def __init__(self, ip_add):
+        self.client = airsim.MultirotorClient(ip=ip_add, port=41451)
+        self.client.confirmConnection()
+        self.client.enableApiControl(True)
+
     def __init__(self):
         self.client = airsim.MultirotorClient()
         self.client.confirmConnection()
