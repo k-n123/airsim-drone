@@ -1,4 +1,4 @@
-#Import modules 
+# Import modules
 
 import setup_path
 import airsim
@@ -12,11 +12,11 @@ import cv2
 import keyboard
 
 
-'''
+"""
 Before running, open AirSim binary or unreal engine project and press play (have simulator running)
-'''
+"""
 
-'''
+"""
 
 class Drone(): initalizes an Airsim drone and enables API control
 
@@ -45,18 +45,19 @@ Contains the following functions:
 
     setFog(p): sets fog to p percent
 
-'''
+"""
+
+
 class Drone:
 
-    #Setup Airsim client 
+    # Setup Airsim client
 
     def __init__(self, ip_add):
         self.client = airsim.MultirotorClient(ip=ip_add, port=41451)
         self.client.confirmConnection()
         self.client.enableApiControl(True)
 
-
-    # the following funcitons will get the state/data of certain aspects and return their states 
+    # the following funcitons will get the state/data of certain aspects and return their states
 
     def getDroneState(self):
         state = self.client.getMultirotorState()
@@ -95,7 +96,7 @@ class Drone:
     # takeoff() will wait for the user to press a key before arming the drone and asynchronously taking off
 
     def takeoff(self):
-        airsim.wait_key('Press any key to takeoff')
+        airsim.wait_key("Press any key to takeoff")
         print("Taking off...")
         self.client.armDisarm(True)
         self.client.takeoffAsync().join()
@@ -114,24 +115,30 @@ class Drone:
         airsim.wait_key("Press any key to land vehicle")
         self.client.landAsync().join()
         self.client.armDisarm(False)
-        
-        self.client.enableApiControl(False)
 
+        self.client.enableApiControl(False)
 
     # reset() will reset the client to where it started and disable api control
 
     def reset(self):
-        airsim.wait_key('Press any key to reset to original state')
+        airsim.wait_key("Press any key to reset to original state")
 
         self.client.reset()
-        #disarm the drone
+        # disarm the drone
         self.client.armDisarm(False)
-        #Disables Api control
+        # Disables Api control
         self.client.enableApiControl(False)
 
-    # captureImage() will capture an image from the drone and save it to a specified directory. 
+    # captureImage() will capture an image from the drone and save it to a specified directory.
 
-    def captureImage(self, image_type=airsim.ImageType.Scene, camera_name="0", vehicle_name="", save_dir="images", image_name=None):
+    def captureImage(
+        self,
+        image_type=airsim.ImageType.Scene,
+        camera_name="0",
+        vehicle_name="",
+        save_dir="images",
+        image_name=None,
+    ):
         """
         Captures an image from the drone's camera and saves it to the specified directory.
 
@@ -145,14 +152,15 @@ class Drone:
         """
         airsim.wait_key("Press any key to capture image")
 
-        #save_dir = "\Users\renta\OneDrive\Documents\Images"
+        # save_dir = "\Users\renta\OneDrive\Documents\Images"
         # Create the directory if it doesn't exist
         os.makedirs(save_dir, exist_ok=True)
 
         # Capture image
-        response = self.client.simGetImage(camera_name, image_type, vehicle_name=vehicle_name)
+        response = self.client.simGetImage(
+            camera_name, image_type, vehicle_name=vehicle_name
+        )
 
-        
         if response is None:
             print("Failed to get image from AirSim.")
             return None
@@ -209,7 +217,3 @@ class Drone:
     def setFog(self, p):
         self.client.simEnableWeather(True)
         self.client.simSetWeatherParameter(airsim.WeatherParameter.Fog, p)
-
-        
-    
-
