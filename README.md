@@ -1,9 +1,9 @@
 # AirSim Drone Simulation w/ Raspberry Pi
 
-
-> airsim folder is the API <
-> settings.json contains settings for multirotor flight <
-> drone_commands.py contains commands <
+Notes:
+- airsim folder is the API
+- settings.json contains settings for multirotor flight 
+- drone_commands.py contains commands 
 
 Steps:
 
