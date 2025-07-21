@@ -17,7 +17,11 @@ Running the simulation:
 - **from drone_commands import drone** add to control file
 - use functions from **drone** class to control drone
 
-ROS:
-- install Ubuntu 20.04 (this is the only version that will work with ROS)
-- refer to *ros_setup.md*
-
+On Raspberry Pi 5:
+- Flash 64-bit OS
+- Install Python3, pip, venv
+- Create venv with python3 -m venv airsim-env
+- Activate venv with source airsim-env/bin/activate
+- pip install msgpack-rpc-python numpy opencv-python
+- pip install airsim > Install after others
+- 
