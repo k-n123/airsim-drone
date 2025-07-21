@@ -1,6 +1,6 @@
 from drone_commands import Drone # Importing the drone class
 
-drone = Drone() # Initialize drone
+drone = Drone("192.168.86.48") # Initialize drone
 
 drone.takeoff()
 
