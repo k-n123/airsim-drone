@@ -1,11 +1,7 @@
 {
   "SettingsVersion": 1.2,
   "SimMode": "Multirotor",
-  "LocalHostIp": "127.0.0.1",
-  "Vehicles": {
-    "Drone1": {
-      "VehicleType": "SimpleFlight"
-    }
-  },
-  "RpcEnabled": true
+  "LocalHostIp": "0.0.0.0",
+  "RpcEnabled": true,
+  "RpcPort": 41451
 }
