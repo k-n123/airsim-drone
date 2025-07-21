@@ -6,5 +6,6 @@
     "Drone1": {
       "VehicleType": "SimpleFlight"
     }
-  }
+  },
+  "RpcEnabled": true
 }
