@@ -19,7 +19,11 @@ def capture_loop():
     print("Started image capture loop.")
     while not stop_event.is_set():
         with lock:
-            drone.captureImage(save_dir=savedir)
+            result = drone.captureImage(save_dir=savedir)
+        if result is None:
+            print("Image capture failed.")
+        else:
+            print(f"Image captured and saved to: {result}")
         time.sleep(0.5)
     print("Stopped image capture loop (drone landed).")
 
