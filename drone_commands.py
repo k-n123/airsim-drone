@@ -11,6 +11,7 @@ import pprint
 import cv2
 import keyboard
 import threading
+lock = threading.Lock()
 
 
 """
