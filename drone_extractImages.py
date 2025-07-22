@@ -1,6 +1,6 @@
 
 from drone_commands import Drone
-drone = Drone()
+drone = Drone(ip="192.168.86.48", port=41451)
 
 import time
 import threading
