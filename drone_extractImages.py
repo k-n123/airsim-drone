@@ -47,7 +47,9 @@ async def main():
 
     await loop.run_in_executor(None, move_commands)
 
-    input("Press Enter to stop capturing images and land the drone...")
+    await asyncio.to_thread(
+        input, "Press Enter to stop capturing images and land the drone..."
+    )
     stop_event.set()
     await capture_task
 
