@@ -12,7 +12,7 @@ drone.takeoff()
 # Image capture function (running in background)
 def capture_loop():
     savedir = "/home/krishnachnani/Desktop/AirsimImages/"
-    date = datetime.now()
+    date = datetime.datetime.now()
     savedir = savedir + str(date)
     print("Started image capture loop.")
     while not drone.isLanded():
