@@ -128,6 +128,7 @@ class Drone:
         airsim.wait_key("Press any key to reset to original state")
 
         self.client.reset()
+        self.client.landAsync().join()
         # disarm the drone
         self.client.armDisarm(False)
         # Disables Api control
