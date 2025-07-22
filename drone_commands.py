@@ -155,7 +155,7 @@ class Drone:
             save_dir (str): Directory to save the image.
             image_name (str): Custom filename; if None, uses timestamp.
         """
-        airsim.wait_key("Press any key to capture image")
+        
 
         # save_dir = "\Users\renta\OneDrive\Documents\Images"
         # Create the directory if it doesn't exist
