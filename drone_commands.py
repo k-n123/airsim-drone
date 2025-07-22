@@ -10,6 +10,7 @@ import tempfile
 import pprint
 import cv2
 import keyboard
+import threading
 
 
 """
@@ -162,9 +163,10 @@ class Drone:
         os.makedirs(save_dir, exist_ok=True)
 
         # Capture image
-        response = self.client.simGetImage(
-            camera_name, image_type, vehicle_name=vehicle_name
-        )
+        with lock:
+            response = self.client.simGetImage(
+                camera_name, image_type, vehicle_name=vehicle_name
+            )
 
         if response is None:
             print("Failed to get image from AirSim.")
