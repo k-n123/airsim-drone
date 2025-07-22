@@ -27,8 +27,9 @@ capture_thread.start()
 
 # Main thread continues to run commands. Put drone commands here.
 
-drone.moveTo(20, 20, -20, 3)
-drone.moveTo(-5, -5, -10, 3)
+with lock:
+    drone.moveTo(20, 20, -20, 3)
+    drone.moveTo(-5, -5, -10, 3)
 
 drone.reset()
 
