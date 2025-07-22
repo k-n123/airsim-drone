@@ -30,7 +30,7 @@ capture_thread.start()
 drone.moveTo(20, 20, -20, 3)
 drone.moveTo(-5, -5, -10, 3)
 
-drone.land()
+drone.reset()
 
 # Wait for drone to land manually or in another command
 print("Main thread done. Waiting for capture thread to finish if needed...")
