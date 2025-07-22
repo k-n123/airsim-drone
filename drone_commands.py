@@ -119,7 +119,8 @@ class Drone:
         self.client.enableApiControl(False)
 
     def isLanded(self):
-        return self.client.getMultirotorState().landed_state
+        return self.client.getMultirotorState().landed_state == airsim.LandedState.Landed
+    
 
     # reset() will reset the client to where it started and disable api control
 
