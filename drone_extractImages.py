@@ -4,7 +4,10 @@ drone = Drone("192.168.86.48")
 
 import time
 import threading
+lock = threading.Lock()
+
 import datetime
+
 
 # Drone takeoff = initate client
 drone.takeoff()
