@@ -6,7 +6,6 @@ import time
 import os
 import threading
 import datetime
-from PIL import Image
 import numpy as np
 
 
