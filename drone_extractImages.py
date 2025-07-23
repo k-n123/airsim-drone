@@ -36,13 +36,16 @@ def main():
 
     try:
         with lock:
+            print("moving")
             drone.moveTo(0, 5, -10, 2)
         time.sleep(2)
         with lock:
+            print("moving forward")
             drone.moveForward()
         time.sleep(2)
         input("Press Enter to stop image capture and land...")
     finally:
+        print("finally")
         stop_event.set()
         image_thread.join()
         with lock:
