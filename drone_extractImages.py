@@ -15,7 +15,10 @@ def capture_images():
     print("Saving images to:", image_dir)
 
     count = 0
+    print(stop_event.is_set())
+
     while not stop_event.is_set():
+        print("loop")
         with lock:
             result = drone.captureImage(save_dir=image_dir, image_name=f"{count}.png")
         print(f"Captured image {count}.png")
