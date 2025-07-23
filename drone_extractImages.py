@@ -1,45 +1,39 @@
-from drone_commands import Drone, lock
-
-drone = Drone("192.168.86.48")
-
 import time
 import os
 import threading
 import datetime
-import numpy as np
+from drone_commands import Drone
 
-import asyncio
+drone = Drone("192.168.86.48")
 
 
-async def capture_Images():
+def capture_images():
     image_dir = os.path.expanduser("~/Desktop/AirsimImages/")
     image_dir += datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "/"
-    if not os.path.exists(image_dir):
-        os.makedirs(image_dir)
+    os.makedirs(image_dir, exist_ok=True)
+    print("Saving images to:", image_dir)
 
-    print(image_dir)
+    while drone.isLanded():
+        time.sleep(0.1)
 
     count = 0
-    while not await drone.isLanded():
-        await drone.captureImage(save_dir=image_dir, image_name=str(count) + ".png")
+    while not drone.isLanded():
+        drone.captureImage(save_dir=image_dir, image_name=f"{count}.png")
+        print(f"Captured image {count}.png")
         count += 1
-        await asyncio.sleep(1)  # capture every second
+        time.sleep(1)
 
-    print(str(count) + " Images captured")
-
-
-async def main():
-    drone.takeoff()
-
-    asyncio.create_task(capture_Images())
-
-    await drone.moveTo(0, 5, -10, 2)
-    await asyncio.sleep(2)
-    await drone.reset()
+    print(f"{count} Images captured.")
 
 
-loop = asyncio.get_event_loop()
-if loop.is_running():
-    asyncio.create_task(main())
-else:
-    loop.run_until_complete(main())
+# Take off first
+drone.takeoff()
+
+# Start image capture thread
+image_thread = threading.Thread(target=capture_images, daemon=True)
+image_thread.start()
+
+drone.moveTo(0, 5, -10, 2)
+time.sleep(2)
+
+drone.reset()
