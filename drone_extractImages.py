@@ -6,45 +6,33 @@ import time
 import os
 import threading
 import datetime
+from PIL import Image
+import numpy as np
 
 
-stop_event = threading.Event()
+def capture_Images():
+    image_dir = os.path.expanduser("~/Desktop/AirsimImages/")
+    image_dir += datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "/"
+    if not os.path.exists(image_dir):
+        os.makedirs(image_dir)
+
+    print(image_dir)
+
+    count = 0
+    while True:
+        drone.captureImage(save_dir=image_dir, image_name=str(count) + ".png")
+        count += 1
+        time.sleep(1)  # capture every second
+
+    return str(count) + " Images captured"
 
 
-# Image capture function (running in background)
-def capture_loop():
-    savedir = os.path.expanduser("~/Desktop/AirsimImages/")
-    date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    savedir = os.path.join(savedir, date)
-    print("Started image capture loop.")
-    while not stop_event.is_set():
-        with lock:
-            result = drone.captureImage(save_dir=savedir)
-        if result is None:
-            print("Image capture failed.")
-        else:
-            print(f"Image captured and saved to: {result}")
-        time.sleep(0.5)
-    print("Stopped image capture loop (drone landed).")
+image_thread = threading.Thread(target=capture_Images, daemon=True)
+image_thread.start()
 
-
-# Drone takeoff = initate client
 drone.takeoff()
 
-# Start capture loop in background
-capture_thread = threading.Thread(target=capture_loop)
-capture_thread.start()
+drone.moveTo(0, 5, -10, 2)
+time.sleep(2)
 
-# Main thread continues to run commands. Put drone commands here.
-try:
-    with lock:
-        drone.moveTo(20, 20, -20, 3)
-        drone.moveTo(-5, -5, -10, 3)
-
-    input("Press Enter to stop capturing images and land the drone...")
-finally:
-    stop_event.set()
-    capture_thread.join()
-    with lock:
-        drone.land()
-    print("Done.")
+drone.reset()
