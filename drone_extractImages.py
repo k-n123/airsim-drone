@@ -18,18 +18,23 @@ def capture_Images():
     print(image_dir)
 
     count = 0
-    while True:
+    while not drone.isLanded():
         drone.captureImage(save_dir=image_dir, image_name=str(count) + ".png")
         count += 1
         time.sleep(1)  # capture every second
 
-    return str(count) + " Images captured"
+    print(str(count) + " Images captured")
 
 
+drone.takeoff()
+
+# Time gap between takeoff and image capture
+time.sleep(1)
+
+# Background thread to capture images
 image_thread = threading.Thread(target=capture_Images, daemon=True)
 image_thread.start()
 
-drone.takeoff()
 
 drone.moveTo(0, 5, -10, 2)
 time.sleep(2)
