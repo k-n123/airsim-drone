@@ -9,8 +9,8 @@ import os
 import tempfile
 import pprint
 import cv2
-import keyboard
 import threading
+
 lock = threading.Lock()
 
 
@@ -121,8 +121,9 @@ class Drone:
         self.client.enableApiControl(False)
 
     def isLanded(self):
-        return self.client.getMultirotorState().landed_state == airsim.LandedState.Landed
-    
+        return (
+            self.client.getMultirotorState().landed_state == airsim.LandedState.Landed
+        )
 
     # reset() will reset the client to where it started and disable api control
 
@@ -157,7 +158,6 @@ class Drone:
             save_dir (str): Directory to save the image.
             image_name (str): Custom filename; if None, uses timestamp.
         """
-        
 
         # save_dir = "\Users\renta\OneDrive\Documents\Images"
         # Create the directory if it doesn't exist

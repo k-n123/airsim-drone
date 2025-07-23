@@ -29,7 +29,7 @@ async def capture_Images():
 
 
 async def main():
-    await drone.takeoff()
+    drone.takeoff()
 
     asyncio.create_task(capture_Images())
 
