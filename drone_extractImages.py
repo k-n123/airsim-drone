@@ -6,7 +6,7 @@ from drone_commands import Drone, lock
 import asyncio
 
 drone = Drone("192.168.86.48")
-stop_event = threading.Event()
+stop_event = asyncio.Event()
 
 
 async def capture_images():
@@ -37,24 +37,23 @@ async def main():
         await drone.takeoff()
 
     # Start image capture thread
-    image_thread = threading.Thread(target=capture_images, daemon=True)
-    image_thread.start()
+    image_task = asyncio.create_task(capture_images())
 
     try:
         with lock:
             print("moving")
             await drone.moveTo(0, 5, -10, 2)
+
         await asyncio.sleep(2)
         input("Press Enter to stop image capture and land...")
     finally:
         print("finally")
         stop_event.set()
-        image_thread.join()
-        with lock:
-            drone.land()
-        print("Done.")
+        await image_task
 
-    drone.reset()
+        with lock:
+            await drone.land()
+        print("Done.")
 
 
 if __name__ == "__main__":
