@@ -102,21 +102,21 @@ class Drone:
         airsim.wait_key("Press any key to takeoff")
         print("Taking off...")
         self.client.armDisarm(True)
-        await self.client.takeoffAsync().join_async()
+        await asyncio.to_thread(self.client.takeoffAsync().join())
 
     # moveTo() will move the drone to the given x, y, z coordinate at given speed (s) meters/second
 
     async def moveTo(self, x, y, z, s):
         print(f"Moving vehicle to ({x}, {y}, {z}) at {s} m/s")
-        await self.client.moveToPositionAsync(x, y, z, s).join_async()
-        await self.client.hoverAsync().join_async()
+        await asyncio.to_thread(self.client.moveToPositionAsync(x, y, z, s).join())
+        await asyncio.to_thread(self.client.hoverAsync().join())
         await asyncio.sleep(2)
 
     # land() will land the drone, disarm it, and disable api control
 
     async def land(self):
         airsim.wait_key("Press any key to land vehicle")
-        await self.client.landAsync().join_async()
+        await asyncio.to_thread(self.client.landAsync().join())
         self.client.armDisarm(False)
 
         self.client.enableApiControl(False)
