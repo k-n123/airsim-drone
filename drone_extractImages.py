@@ -3,12 +3,13 @@ import os
 import threading
 import datetime
 from drone_commands import Drone, lock
+import asyncio
 
 drone = Drone("192.168.86.48")
 stop_event = threading.Event()
 
 
-def capture_images():
+async def capture_images():
     image_dir = os.path.expanduser("~/Desktop/AirsimImages/")
     image_dir += datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "/"
     os.makedirs(image_dir, exist_ok=True)
@@ -20,18 +21,20 @@ def capture_images():
     while not stop_event.is_set():
         print("loop")
         with lock:
-            result = drone.captureImage(save_dir=image_dir, image_name=f"{count}.png")
+            result = await drone.captureImage(
+                save_dir=image_dir, image_name=f"{count}.png"
+            )
         print(f"Captured image {count}.png")
         count += 1
-        time.sleep(1)
+        await asyncio.sleep(1)
 
     print(f"{count} Images captured.")
 
 
-def main():
+async def main():
     # Take off first
     with lock:
-        drone.takeoff()
+        await drone.takeoff()
 
     # Start image capture thread
     image_thread = threading.Thread(target=capture_images, daemon=True)
@@ -40,12 +43,8 @@ def main():
     try:
         with lock:
             print("moving")
-            drone.moveTo(0, 5, -10, 2)
-        time.sleep(2)
-        with lock:
-            print("moving forward")
-            drone.moveForward()
-        time.sleep(2)
+            await drone.moveTo(0, 5, -10, 2)
+        await asyncio.sleep(2)
         input("Press Enter to stop image capture and land...")
     finally:
         print("finally")

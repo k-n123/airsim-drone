@@ -10,6 +10,7 @@ import tempfile
 import pprint
 import cv2
 import threading
+import asyncio
 
 lock = threading.Lock()
 
@@ -97,25 +98,25 @@ class Drone:
 
     # takeoff() will wait for the user to press a key before arming the drone and asynchronously taking off
 
-    def takeoff(self):
+    async def takeoff(self):
         airsim.wait_key("Press any key to takeoff")
         print("Taking off...")
         self.client.armDisarm(True)
-        self.client.takeoffAsync().join()
+        await self.client.takeoffAsync().join_async()
 
     # moveTo() will move the drone to the given x, y, z coordinate at given speed (s) meters/second
 
-    def moveTo(self, x, y, z, s):
+    async def moveTo(self, x, y, z, s):
         print(f"Moving vehicle to ({x}, {y}, {z}) at {s} m/s")
-        self.client.moveToPositionAsync(x, y, z, s).join()
-        self.client.hoverAsync().join()
-        time.sleep(2)
+        await self.client.moveToPositionAsync(x, y, z, s).join_async()
+        await self.client.hoverAsync().join_async()
+        await asyncio.sleep(2)
 
     # land() will land the drone, disarm it, and disable api control
 
-    def land(self):
+    async def land(self):
         airsim.wait_key("Press any key to land vehicle")
-        self.client.landAsync().join()
+        await self.client.landAsync().join_async()
         self.client.armDisarm(False)
 
         self.client.enableApiControl(False)
