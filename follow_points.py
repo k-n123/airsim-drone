@@ -16,11 +16,12 @@ client.armDisarm(True)
 # === Take off ===
 client.takeoffAsync().join()
 client.hoverAsync().join()
+time.sleep(2)
 
 # === Image output directory ===
-image_dir = "~/Desktop/AirSimImages/"
+base_dir = os.path.expanduser("~/Desktop/AirSimImages/")
 date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-image_dir = os.path.join(image_dir, date_str)
+image_dir = os.path.join(base_dir, date_str)
 os.makedirs(image_dir, exist_ok=True)
 print(f"Images will be saved to: {image_dir}")
 
