@@ -7,6 +7,8 @@ from PIL import Image
 import threading
 import datetime
 
+lock = threading.Lock()
+
 # === Setup AirSim connection ===
 client = airsim.MultirotorClient(ip="192.168.86.48")
 client.confirmConnection()
@@ -28,11 +30,16 @@ print(f"Images will be saved to: {image_dir}")
 
 # === Function to save one image ===
 def save_image():
-    responses = client.simGetImages(
-        [airsim.ImageRequest("0", airsim.ImageType.Scene, False, False)]
-    )
+    with lock:
+        responses = client.simGetImages(
+            [airsim.ImageRequest("0", airsim.ImageType.Scene, False, False)]
+        )
     if responses:
         response = responses[0]
+        if response.width == 0 or response.height == 0:
+            print("⚠️ Warning: Received empty image frame.")
+            return
+
         img1d = np.frombuffer(response.image_data_uint8, dtype=np.uint8)
         img_rgb = img1d.reshape(response.height, response.width, 3)
         image = Image.fromarray(img_rgb)
@@ -63,8 +70,9 @@ def move_to_points(points, velocity):
     for point in points:
         x, y, z = point
         print(f"Moving to ({x}, {y}, {z}) at {velocity} m/s")
-        client.moveToPositionAsync(x, y, z, velocity).join()
-        client.hoverAsync().join()
+        with lock:
+            client.moveToPositionAsync(x, y, z, velocity).join()
+            client.hoverAsync().join()
 
 
 points = [(0, 0, -10), (10, 0, -10), (5, -5, -10), (-5, -6, -10)]
@@ -76,5 +84,7 @@ move_to_points(points, 3)
 stop_capture = True
 capture_thread.join()
 
-client.hoverAsync().join()
+with lock:
+    client.hoverAsync().join()
+
 print("Flight complete and image capture stopped.")
