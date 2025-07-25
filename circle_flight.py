@@ -7,7 +7,7 @@ from PIL import Image
 import threading
 
 # === Setup AirSim connection ===
-client = airsim.MultirotorClient()
+client = airsim.MultirotorClient(ip="192.168.86.48")
 client.confirmConnection()
 client.enableApiControl(True)
 client.armDisarm(True)
