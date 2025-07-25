@@ -98,25 +98,24 @@ class Drone:
 
     # takeoff() will wait for the user to press a key before arming the drone and asynchronously taking off
 
-    async def takeoff(self):
+    def takeoff(self):
         airsim.wait_key("Press any key to takeoff")
         print("Taking off...")
         self.client.armDisarm(True)
-        await asyncio.to_thread(self.client.takeoffAsync().join())
+        self.client.takeoffAsync().join()
 
     # moveTo() will move the drone to the given x, y, z coordinate at given speed (s) meters/second
 
-    async def moveTo(self, x, y, z, s):
+    def moveTo(self, x, y, z, s):
         print(f"Moving vehicle to ({x}, {y}, {z}) at {s} m/s")
-        await asyncio.to_thread(self.client.moveToPositionAsync(x, y, z, s).join())
-        await asyncio.to_thread(self.client.hoverAsync().join())
-        await asyncio.sleep(2)
+        self.client.moveToPositionAsync(x, y, z, s).join()
+        self.client.hoverAsync().join()
 
     # land() will land the drone, disarm it, and disable api control
 
-    async def land(self):
+    def land(self):
         airsim.wait_key("Press any key to land vehicle")
-        await asyncio.to_thread(self.client.landAsync().join())
+        self.client.landAsync().join()
         self.client.armDisarm(False)
 
         self.client.enableApiControl(False)
@@ -199,19 +198,27 @@ class Drone:
 
     def moveForward(self):
         x, y, z = self.getCoordinates()
-        self.client.moveToPositionAsync(x + 5, y, z, 5).join()
+        self.client.moveToPositionAsync(x + 2, y, z, 2).join()
 
     def moveBackward(self):
         x, y, z = self.getCoordinates()
-        self.client.moveToPositionAsync(x - 5, y, z, 5).join()
+        self.client.moveToPositionAsync(x - 2, y, z, 2).join()
 
     def moveRight(self):
         x, y, z = self.getCoordinates()
-        self.client.moveToPositionAsync(x, y + 5, z, 5).join()
+        self.client.moveToPositionAsync(x, y + 2, z, 2).join()
 
     def moveLeft(self):
         x, y, z = self.getCoordinates()
-        self.client.moveToPositionAsync(x, y - 5, z, 5).join()
+        self.client.moveToPositionAsync(x, y - 2, z, 2).join()
+
+    def moveUp(self):
+        x, y, z = self.getCoordinates()
+        self.client.moveToPositionAsync(x, y, z + 2, 2).join()
+
+    def moveDown(self):
+        x, y, z = self.getCoordinates()
+        self.client.moveToPositionAsync(x, y, z - 2, 2).join()
 
     # Recording functions
 

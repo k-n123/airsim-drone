@@ -1,12 +1,49 @@
-from drone_commands import Drone # Importing the drone class
+from drone_commands import Drone  # Importing the drone class
+import keyboard
 
-drone = Drone("192.168.86.48") # Initialize drone
+drone = Drone("192.168.86.48")  # Initialize drone
 
 drone.takeoff()
 
-# Further actions here
+currentKey = "w"
 
-drone.moveTo(20, 20, -20, 3)
-drone.moveTo(-5, -5, -10, 3)
+while not drone.isLanded():
+    if currentKey == "w":
+        drone.moveForward()
+    elif currentKey == "s":
+        drone.moveBackward()
+    elif currentKey == "a":
+        drone.moveLeft()
+    elif currentKey == "d":
+        drone.moveRight()
+    elif currentKey == "q":
+        drone.moveUp()
+    elif currentKey == "e":
+        drone.moveDown()
+    elif currentKey == "backspace":
+        drone.reset()
+        break
+    else:
+        drone.land()
+        break
 
-drone.reset()
+    drone.captureImage(save_dir="~/Desktop/AirSimImages/", image_name="image.png")
+
+    if keyboard.is_pressed("w"):
+        currentKey = "w"
+    elif keyboard.is_pressed("s"):
+        currentKey = "s"
+    elif keyboard.is_pressed("a"):
+        currentKey = "a"
+    elif keyboard.is_pressed("d"):
+        currentKey = "d"
+    elif keyboard.is_pressed("q"):
+        currentKey = "q"
+    elif keyboard.is_pressed("e"):
+        currentKey = "e"
+    elif keyboard.is_pressed("backspace"):
+        drone.reset()
+        break
+    elif keyboard.is_pressed("esc"):
+        drone.land()
+        break
