@@ -5,6 +5,7 @@ import math
 import numpy as np
 from PIL import Image
 import threading
+import datetime
 
 # === Setup AirSim connection ===
 client = airsim.MultirotorClient(ip="192.168.86.48")
@@ -15,11 +16,13 @@ client.armDisarm(True)
 # === Take off ===
 client.takeoffAsync().join()
 client.hoverAsync().join()
-print("Drone took off and is hovering.")
 
 # === Image output directory ===
-image_dir = "airsim_continuous_images"
+image_dir = "~/Desktop/AirSimImages/"
+date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+image_dir = os.path.join(image_dir, date_str)
 os.makedirs(image_dir, exist_ok=True)
+print(f"Images will be saved to: {image_dir}")
 
 
 # === Function to save one image ===
@@ -38,7 +41,7 @@ def save_image():
 
 
 # === Background thread: Capture images every N seconds ===
-capture_interval = 1  # seconds
+capture_interval = 1
 stop_capture = False
 
 
@@ -52,31 +55,21 @@ def image_capture_loop():
 capture_thread = threading.Thread(target=image_capture_loop)
 capture_thread.start()
 
-# === Circular path ===
-radius = 10
-z = -5
-steps = 36
-velocity = 5
+# Move along points
 
-# Generate full circular path
-path = []
-for i in range(steps):
-    angle = 2 * math.pi * i / steps
-    x = radius * math.cos(angle)
-    y = radius * math.sin(angle)
-    path.append(airsim.Vector3r(x, y, z))
 
-print("Starting smooth circular flight while capturing images...")
+def move_to_points(points, velocity):
+    for point in points:
+        x, y, z = point
+        print(f"Moving to ({x}, {y}, {z}) at {velocity} m/s")
+        client.moveToPositionAsync(x, y, z, velocity).join()
+        client.hoverAsync().join()
 
-# Fly along the circular path
-client.moveOnPathAsync(
-    path,
-    velocity,
-    drivetrain=airsim.DrivetrainType.ForwardOnly,
-    yaw_mode=airsim.YawMode(is_rate=False, yaw_or_rate=0),
-    lookahead=-1,
-    adaptive_lookahead=1,
-).join()
+
+points = [(0, 0, -10), (10, 0, -10), (5, -5, -10), (-5, -6, -10)]
+
+# Move to points
+move_to_points(points, 3)
 
 # Stop image capture thread
 stop_capture = True
