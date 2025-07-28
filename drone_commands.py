@@ -233,3 +233,31 @@ class Drone:
     def setFog(self, p):
         self.client.simEnableWeather(True)
         self.client.simSetWeatherParameter(airsim.WeatherParameter.Fog, p)
+
+    def forward(self, distance):
+        x, y, z = self.getCoordinates()
+        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        for i in range(distance):
+            self.client.moveToPositionAsync(x + i, y, z, 2).join()
+            self.captureImage(save_dir=path, image_name=f"forward_{i}.png")
+
+    def backward(self, distance):
+        x, y, z = self.getCoordinates()
+        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        for i in range(distance):
+            self.client.moveToPositionAsync(x - i, y, z, 2).join()
+            self.captureImage(save_dir=path, image_name=f"backward_{i}.png")
+
+    def left(self, distance):
+        x, y, z = self.getCoordinates()
+        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        for i in range(distance):
+            self.client.moveToPositionAsync(x, y - i, z, 2).join()
+            self.captureImage(save_dir=path, image_name=f"left_{i}.png")
+
+    def right(self, distance):
+        x, y, z = self.getCoordinates()
+        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        for i in range(distance):
+            self.client.moveToPositionAsync(x, y + i, z, 2).join()
+            self.captureImage(save_dir=path, image_name=f"right_{i}.png")
