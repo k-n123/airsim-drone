@@ -7,11 +7,47 @@
   "Vehicles": {
     "Drone1": {
       "VehicleType": "SimpleFlight",
-      "X": 0, "Y": 0, "Z": 0
+      "X": 0, "Y": 0, "Z": 0,
+      "Cameras": {
+        "BottomCamera": {
+          "CaptureSettings": [
+            {
+              "ImageType": 0,
+              "Width": 640,
+              "Height": 480,
+              "FOV_Degrees": 90
+            }
+          ],
+          "X": 0, 
+          "Y": 0,
+          "Z": -0.2, 
+          "Pitch": -90,
+          "Roll": 0,
+          "Yaw": 0
+        }
+      }
     },
     "Drone2": {
       "VehicleType": "SimpleFlight",
-      "X": 5, "Y": 0, "Z": 0
+      "X": 5, "Y": 0, "Z": 0,
+      "Cameras": {
+        "BottomCamera": {
+          "CaptureSettings": [
+            {
+              "ImageType": 0,
+              "Width": 640,
+              "Height": 480,
+              "FOV_Degrees": 90
+            }
+          ],
+          "X": 0, 
+          "Y": 0,
+          "Z": -0.2, 
+          "Pitch": -90,
+          "Roll": 0,
+          "Yaw": 0
+        }
+      }
     }
   }
 }
