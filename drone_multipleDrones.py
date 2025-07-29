@@ -16,23 +16,34 @@ class MultipleDroneController:
         for name in names:
             self.client.enableApiControl(True, name)
 
+    def waitOnAllTasks(self, futures):
+        """
+        Waits for all tasks to complete.
+        """
+        for future in futures:
+            future.join()
+
     def takeoffAll(self):
+        futures = []
         for name in self.droneNames:
+            self.client.enableApiControl(True, name)
             self.client.armDisarm(True, name)
-            self.client.takeoffAsync(vehicle_name=name).join()
-        self.client.waitOnAllTasks()
+            futures.append(self.client.takeoffAsync(vehicle_name=name))
+        self.waitOnAllTasks(futures)
 
     def takeoff(self, name):
         print("Taking off...")
+        self.client.enableApiControl(True, name)
         self.client.armDisarm(True, name)
         self.client.takeoffAsync(vehicle_name=name).join()
 
     def landAll(self):
+        futures = []
         for name in self.droneNames:
-            self.client.landAsync(vehicle_name=name).join()
+            futures.append(self.client.landAsync(vehicle_name=name))
             self.client.armDisarm(False, name)
             self.client.enableApiControl(False, name)
-        self.client.waitOnAllTasks()
+        self.waitOnAllTasks(futures)
 
     def land(self, name):
         print("Landing...")
@@ -41,10 +52,11 @@ class MultipleDroneController:
         self.client.enableApiControl(False, name)
 
     def resetAll(self):
+        futures = []
         for name in self.droneNames:
-            self.client.reset(vehicle_name=name)
+            futures.append(self.client.reset(vehicle_name=name))
             self.client.enableApiControl(False, name)
-        self.client.waitOnAllTasks()
+        self.waitOnAllTasks(futures)
 
     def reset(self, name):
         print("Resetting drone...")
