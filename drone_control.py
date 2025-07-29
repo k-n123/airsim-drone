@@ -1,10 +1,10 @@
 from drone_commands import Drone
+from drone_multipleDrones import MultipleDroneController
 
-drone = Drone("10.74.226.210")
+controller = MultipleDroneController("10.74.226.210", ["Drone1", "Drone2"])
 
-drone.takeoff()
+controller.takeoffAll()
 
-drone.forward(10)
-drone.right(5)
+controller.moveAll(10, controller.forward)
 
-drone.land()
+controller.landAll()
