@@ -1,6 +1,6 @@
 from drone_commands import Drone
 
-drone = Drone("192.168.86.35")
+drone = Drone("10.74.226.210")
 
 drone.takeoff()
 
