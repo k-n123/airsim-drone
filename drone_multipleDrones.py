@@ -142,7 +142,11 @@ class MultipleDroneController:
         path = os.path.expanduser("~/Desktop/AirSimImages/")
         for i in range(distance):
             self.client.moveToPositionAsync(x + i, y, z, 2).join()
-            self.captureImage(save_dir=path, image_name=f"{name} forward_{i}.png")
+            self.captureImage(
+                camera_name="BottomCamera",
+                save_dir=path,
+                image_name=f"{name} forward_{i}.png",
+            )
 
     def backward(self, distance, name):
         x, y, z = self.getCoordinates(name)
