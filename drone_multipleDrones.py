@@ -118,6 +118,17 @@ class MultipleDroneController:
 
         return save_path
 
+    def captureImageAll(self, image_type=airsim.ImageType.Scene, camera_name="0"):
+        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        for name in self.droneNames:
+            self.captureImage(
+                image_type=image_type,
+                camera_name=camera_name,
+                vehicle_name=name,
+                save_dir=path,
+                image_name=f"{name}_image.png",
+            )
+
     def getCoordinates(self, name):
         state = self.client.getMultirotorState(vehicle_name=name)
         position = state.kinematics_estimated.position
