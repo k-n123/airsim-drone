@@ -25,3 +25,8 @@ On Raspberry Pi 5:
 - ```pip install msgpack-rpc-python numpy opencv-python```
 - ```pip install airsim``` > Install after others
 - ```client = airsim.MultirotorClient(ip="192.168.1.100", port=41451)``` will allow for the Raspberry Pi to connect the simulation. Make sure to use proper IP address of simulation
+
+Multiple Drones:
+- Update ```settings.json``` with multiple vehicles. Name them properly.
+- Use the MultipleDroneController to control drones
+- If not using multiple drones, remove vehicle sections from ```settings.json```
