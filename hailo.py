@@ -17,8 +17,9 @@ with VDevice() as device:
     network_group = network_groups[0]
 
     # 4. Create input/output streams
-    input_vstream_info = hef.get_input_vstream_infos()
-    output_vstream_info = hef.get_output_vstream_infos()
+    input_vstream_info = {vs.name: vs for vs in hef.get_input_vstream_infos()}
+    output_vstream_info = {vs.name: vs for vs in hef.get_output_vstream_infos()}
+
     with InferVStreams(
         network_group, input_vstream_info, output_vstream_info
     ) as infer_vstreams:
