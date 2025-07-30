@@ -1,4 +1,4 @@
-from hailo_platform import VDevice, HEF, InferVStreams
+from hailo_platform import VDevice, HEF, InferVStreams, VStreamParams
 import cv2
 import numpy as np
 import os
@@ -41,11 +41,9 @@ with VDevice() as device:
     output_infos = hef.get_output_vstream_infos()
 
     # 3. Convert to params
-    input_params = {
-        info.name: InferVStreams.create_input_params(info) for info in input_infos
-    }
+    input_params = {info.name: VStreamParams.make_input(info) for info in input_infos}
     output_params = {
-        info.name: InferVStreams.create_output_params(info) for info in output_infos
+        info.name: VStreamParams.make_output(info) for info in output_infos
     }
 
     # 4. Run inference
