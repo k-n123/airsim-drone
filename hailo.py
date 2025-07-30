@@ -5,5 +5,5 @@ import cv2
 import numpy as np
 
 # 1. Load your model HEF
-hef_path = "yolov5m_wo_spp.hef"
+hef_path = "yolov6n.hef"
 hef = HEF(hef_path)
