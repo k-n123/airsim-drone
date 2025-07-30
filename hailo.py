@@ -8,7 +8,7 @@ import os
 hef_path = "yolov6n.hef"
 
 # Path to input image
-path = os.expanduser("~/Desktop/AirSimImages/")
+path = os.path.expanduser("~/Desktop/AirSimImages/")
 image_path = os.path.join(path, "Drone1 forward_0.png")
 
 # Preprocessing parameters (adjust to model input)
