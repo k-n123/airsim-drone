@@ -13,7 +13,8 @@ hef = HEF(hef_path)
 # 2. Create virtual device
 with VDevice() as device:
     # 3. Configure network group
-    network_group = device.configure(hef)
+    network_groups = device.configure(hef)
+    network_group = network_groups[0]
 
     # 4. Create input/output streams
     input_vstream_info = hef.get_input_vstream_infos()
