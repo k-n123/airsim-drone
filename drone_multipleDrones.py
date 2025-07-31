@@ -5,6 +5,7 @@ import os
 import time
 import cv2
 import numpy as np
+import datetime
 
 
 class MultipleDroneController:
@@ -12,6 +13,12 @@ class MultipleDroneController:
         self.client = airsim.MultirotorClient(ip=ip_add, port=41451)
         self.client.confirmConnection()
         self.droneNames = names
+
+        self.path = os.path.expanduser("~/Desktop/AirSimImages/")
+        date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        self.path = os.path.join(self.path, date)
+        self.path = os.path.join(self.path, "/")
+        os.makedirs(self.path, exist_ok=True)
 
         for name in names:
             self.client.enableApiControl(True, name)
@@ -85,7 +92,7 @@ class MultipleDroneController:
 
         # save_dir = "\Users\renta\OneDrive\Documents\Images"
         # Create the directory if it doesn't exist
-        os.makedirs(save_dir, exist_ok=True)
+        os.makedirs(self.path, exist_ok=True)
 
         # Capture image
 
@@ -110,7 +117,7 @@ class MultipleDroneController:
             timestamp = int(time.time() * 1000)
             image_name = f"image_{timestamp}.png"
 
-        save_path = os.path.join(save_dir, image_name)
+        save_path = self.path + image_name
 
         # Save using OpenCV
         cv2.imwrite(save_path, img_rgb)
@@ -119,13 +126,13 @@ class MultipleDroneController:
         return save_path
 
     def captureImageAll(self, image_type=airsim.ImageType.Scene, camera_name="0"):
-        path = os.path.expanduser("~/Desktop/AirSimImages/")
+
         for name in self.droneNames:
             self.captureImage(
                 image_type=image_type,
                 camera_name=camera_name,
                 vehicle_name=name,
-                save_dir=path,
+                save_dir=self.path,
                 image_name=f"{name}_image.png",
             )
 
@@ -139,7 +146,7 @@ class MultipleDroneController:
 
     def forward(self, distance, name):
         x, y, z = self.getCoordinates(name)
-        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        path = self.path
         for i in range(distance):
             self.client.moveToPositionAsync(x + i, y, z, 2, vehicle_name=name).join()
             self.captureImage(
@@ -150,14 +157,14 @@ class MultipleDroneController:
 
     def backward(self, distance, name):
         x, y, z = self.getCoordinates(name)
-        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        path = self.path
         for i in range(distance):
             self.client.moveToPositionAsync(x - i, y, z, 2, vehicle_name=name).join()
             self.captureImage(save_dir=path, image_name=f"{name} backward_{i}.png")
 
     def left(self, distance, name):
         x, y, z = self.getCoordinates(name)
-        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        path = self.path
         for i in range(distance):
             self.client.moveToPositionAsync(x, y - i, z, 2, vehicle_name=name).join()
             self.captureImage(save_dir=path, image_name=f"{name} left_{i}.png")
