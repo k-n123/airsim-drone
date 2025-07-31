@@ -15,10 +15,8 @@ class MultipleDroneController:
         self.droneNames = names
 
         self.path = os.path.expanduser("~/Desktop/AirSimImages/")
-        date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        date = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "/"
         self.path = os.path.join(self.path, date)
-        self.path = os.path.join(self.path, "/")
-        os.makedirs(self.path, exist_ok=True)
 
         for name in names:
             self.client.enableApiControl(True, name)
@@ -117,7 +115,7 @@ class MultipleDroneController:
             timestamp = int(time.time() * 1000)
             image_name = f"image_{timestamp}.png"
 
-        save_path = self.path + image_name
+        save_path = os.path.join(save_dir, image_name)
 
         # Save using OpenCV
         cv2.imwrite(save_path, img_rgb)
