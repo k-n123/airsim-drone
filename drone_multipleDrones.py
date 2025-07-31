@@ -141,7 +141,7 @@ class MultipleDroneController:
         x, y, z = self.getCoordinates(name)
         path = os.path.expanduser("~/Desktop/AirSimImages/")
         for i in range(distance):
-            self.client.moveToPositionAsync(x + i, y, z, 2).join()
+            self.client.moveToPositionAsync(x + i, y, z, 2, vehicle_name=name).join()
             self.captureImage(
                 camera_name="BottomCamera",
                 save_dir=path,
@@ -152,28 +152,28 @@ class MultipleDroneController:
         x, y, z = self.getCoordinates(name)
         path = os.path.expanduser("~/Desktop/AirSimImages/")
         for i in range(distance):
-            self.client.moveToPositionAsync(x - i, y, z, 2).join()
+            self.client.moveToPositionAsync(x - i, y, z, 2, vehicle_name=name).join()
             self.captureImage(save_dir=path, image_name=f"{name} backward_{i}.png")
 
     def left(self, distance, name):
         x, y, z = self.getCoordinates(name)
         path = os.path.expanduser("~/Desktop/AirSimImages/")
         for i in range(distance):
-            self.client.moveToPositionAsync(x, y - i, z, 2).join()
+            self.client.moveToPositionAsync(x, y - i, z, 2, vehicle_name=name).join()
             self.captureImage(save_dir=path, image_name=f"{name} left_{i}.png")
 
     def right(self, distance, name):
         x, y, z = self.getCoordinates(name)
         path = os.path.expanduser("~/Desktop/AirSimImages/")
         for i in range(distance):
-            self.client.moveToPositionAsync(x, y + i, z, 2).join()
+            self.client.moveToPositionAsync(x, y + i, z, 2, vehicle_name=name).join()
             self.captureImage(save_dir=path, image_name=f"{name} right_{i}.png")
 
     def up(self, distance, name):
         x, y, z = self.getCoordinates(name)
         path = os.path.expanduser("~/Desktop/AirSimImages/")
         for i in range(distance):
-            self.client.moveToPositionAsync(x, y, z - i, 2).join()
+            self.client.moveToPositionAsync(x, y, z - i, 2, vehicle_name=name).join()
             self.captureImage(
                 camera_name="BottomCamera",
                 save_dir=path,
