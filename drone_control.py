@@ -1,7 +1,7 @@
 from drone_commands import Drone
 from drone_multipleDrones import MultipleDroneController
 
-controller = MultipleDroneController("10.74.226.210", ["Drone1", "Drone2"])
+controller = MultipleDroneController("192.168.86.29", ["Drone1", "Drone2"])
 
 controller.takeoffAll()
 
