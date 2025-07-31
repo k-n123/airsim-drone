@@ -169,14 +169,14 @@ class MultipleDroneController:
 
     def right(self, distance, name):
         x, y, z = self.getCoordinates(name)
-        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        path = self.path
         for i in range(distance):
             self.client.moveToPositionAsync(x, y + i, z, 2, vehicle_name=name).join()
             self.captureImage(save_dir=path, image_name=f"{name} right_{i}.png")
 
     def up(self, distance, name):
         x, y, z = self.getCoordinates(name)
-        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        path = self.path
         for i in range(distance):
             self.client.moveToPositionAsync(x, y, z - i, 2, vehicle_name=name).join()
             self.captureImage(
