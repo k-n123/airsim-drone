@@ -169,6 +169,17 @@ class MultipleDroneController:
             self.client.moveToPositionAsync(x, y + i, z, 2).join()
             self.captureImage(save_dir=path, image_name=f"{name} right_{i}.png")
 
+    def up(self, distance, name):
+        x, y, z = self.getCoordinates(name)
+        path = os.path.expanduser("~/Desktop/AirSimImages/")
+        for i in range(distance):
+            self.client.moveToPositionAsync(x, y, z - i, 2).join()
+            self.captureImage(
+                camera_name="BottomCamera",
+                save_dir=path,
+                image_name=f"{name} up_{i}.png",
+            )
+
     def moveAll(self, distance, func):
         # Execute a movement function for ALL drones
         for name in self.droneNames:
